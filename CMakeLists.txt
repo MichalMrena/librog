@@ -70,6 +70,8 @@ install(
 install(
     FILES
         librog/rog.hpp
+        librog/details/concepts.hpp
+        librog/details/console_output.hpp
     DESTINATION
         ${CMAKE_INSTALL_INCLUDEDIR}/librog
 )
