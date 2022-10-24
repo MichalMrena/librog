@@ -36,6 +36,7 @@ target_sources(
     FILES
         librog/rog.hpp
         librog/details/console.hpp
+        librog/details/concepts.hpp
         librog/details/console_output.hpp
 )
 
