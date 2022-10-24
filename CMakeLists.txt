@@ -91,3 +91,5 @@ install(
     NAMESPACE
         rog::
 )
+
+add_subdirectory(tests)

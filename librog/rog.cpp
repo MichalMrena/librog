@@ -72,31 +72,52 @@ namespace rog
     }
 
     auto LeafTest::assert_true
-        (bool const b, std::string s) -> void
+        (bool const b, std::string m) -> void
     {
         auto const type = b ? TestMessageType::Pass : TestMessageType::Fail;
-        results_.emplace_back(TestMessage {type, std::move(s)});
+        results_.emplace_back(TestMessage {type, std::move(m)});
     }
 
-    auto LeafTest::log_info
+    auto LeafTest::assert_false
+        (bool const b, std::string m) -> void
+    {
+        this->assert_true(not b, std::move(m));
+    }
+
+    auto LeafTest::assert_null
+        (std::nullptr_t) -> void
+    {
+        this->pass("Null literal is indeed null");
+    }
+
+    auto LeafTest::assert_not_null
+        (std::nullptr_t) -> void
+    {
+        this->fail("Null literal cannot be not null");
+    }
+
+    auto LeafTest::info
         (std::string m) -> void
     {
         results_.emplace_back(
-            TestMessage {TestMessageType::Info, std::move(m)});
+            TestMessage {TestMessageType::Info, std::move(m)}
+        );
     }
 
-    auto LeafTest::log_fail
+    auto LeafTest::fail
         (std::string m) -> void
     {
         results_.emplace_back(
-            TestMessage {TestMessageType::Fail, std::move(m)});
+            TestMessage {TestMessageType::Fail, std::move(m)}
+        );
     }
 
-    auto LeafTest::log_pass
+    auto LeafTest::pass
         (std::string m) -> void
     {
         results_.emplace_back(
-            TestMessage {TestMessageType::Pass, std::move(m)});
+            TestMessage {TestMessageType::Pass, std::move(m)}
+        );
     }
 
 // CompositeTest:
