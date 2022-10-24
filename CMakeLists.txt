@@ -1,6 +1,6 @@
 cmake_minimum_required(
     VERSION
-        3.21
+        3.23
 )
 
 project(
@@ -18,9 +18,25 @@ include(CMakePackageConfigHelpers)
 
 add_library(
     librog
-    librog/rog.cpp
-    librog/details/console.cpp
-    librog/details/console_output.cpp
+)
+
+target_sources(
+        librog
+    PRIVATE
+        librog/rog.cpp
+        librog/details/console.cpp
+        librog/details/console_output.cpp
+)
+
+target_sources(
+        librog
+    PUBLIC
+    FILE_SET
+        HEADERS
+    FILES
+        librog/rog.hpp
+        librog/details/console.hpp
+        librog/details/console_output.hpp
 )
 
 target_include_directories(
@@ -60,20 +76,12 @@ install(
         librog
     EXPORT
         librog-config
+    FILE_SET
+        HEADERS
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
-
-# TODO use FILE_SET https://cmake.org/cmake/help/latest/command/install.html#directory
-install(
-    FILES
-        librog/rog.hpp
-        librog/details/concepts.hpp
-        librog/details/console_output.hpp
-    DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}/librog
 )
 
 export(
