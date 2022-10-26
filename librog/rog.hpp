@@ -5,6 +5,8 @@
 #include <concepts>
 #include <cstddef>
 #include <functional>
+#include <iomanip>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <ostream>
@@ -560,13 +562,18 @@ namespace rog
     requires std::equality_comparable<T> && std::floating_point<T>
     auto LeafTest::assert_equals (T expected, T actual, T epsilon) -> void
     {
+        auto ost = std::ostringstream();
+
+        ost.precision(std::numeric_limits<double>::max_digits10);
+        ost << "Expected " << expected
+            << " got " << actual
+            << " using presision " << epsilon;
+
         this->assert_equals(
             expected,
             actual,
             epsilon,
-            "Expected " + std::to_string(expected) + " got " +
-            std::to_string(actual) + " using precision " +
-            std::to_string(epsilon) + ""
+            ost.str()
         );
     }
 
@@ -620,13 +627,18 @@ namespace rog
         T epsilon
     ) -> void
     {
+        auto ost = std::ostringstream();
+
+        ost.precision(std::numeric_limits<double>::max_digits10);
+        ost << "Expected " << expected
+            << " and " << actual
+            << " to be different using presision " << epsilon;
+
         this->assert_not_equals(
             expected,
             actual,
             epsilon,
-            "Expected " + std::to_string(expected) + " and " +
-            std::to_string(actual) + " to be different using precision " +
-            std::to_string(epsilon)
+            ost.str()
         );
     }
 

@@ -105,8 +105,8 @@ protected:
         this->assert_false(false, "Assert false");
         this->assert_equals(2, 2);
         this->assert_not_equals(1, 2);
-        this->assert_equals(.100000000001, .1, 0.0001);
-        this->assert_not_equals(.1, .2, .0001);
+        this->assert_equals(.100000000001, .1, .0001);
+        this->assert_not_equals(.1, .2, .00000001);
         this->assert_throws([](){ throw 1; });
         this->assert_null(nullptr);
         this->assert_equals(adl::ToStringAbleDummy(), adl::ToStringAbleDummy());
