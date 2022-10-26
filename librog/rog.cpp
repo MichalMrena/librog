@@ -96,6 +96,18 @@ namespace rog
         this->fail("Null literal cannot be not null");
     }
 
+    auto LeafTest::assert_nullopt
+        (std::nullopt_t) -> void
+    {
+        this->pass("Nullopt literal is indeed nullopt");
+    }
+
+    auto LeafTest::assert_has_value
+        (std::nullopt_t) -> void
+    {
+        this->fail("Nullopt literal never has value");
+    }
+
     auto LeafTest::info
         (std::string m) -> void
     {

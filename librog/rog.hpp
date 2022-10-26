@@ -355,25 +355,49 @@ namespace rog
         auto assert_not_null (std::nullptr_t) -> void;
 
         /**
-         *  \brief Asserts that \p is not nullptr.
+         *  \brief Asserts that \p p is not nullptr.
          *  \param p pointer
          */
         template<class T>
-        auto assert_not_null (T*) -> void;
+        auto assert_not_null (T* p) -> void;
 
         /**
-         *  \brief Asserts that \p is not nullptr.
+         *  \brief Asserts that \p p is not nullptr.
          *  \param p pointer
          */
         template<class T, class D>
         auto assert_not_null (std::unique_ptr<T, D> const& p) -> void;
 
         /**
-         *  \brief Asserts that \p is not nullptr.
+         *  \brief Asserts that \p p is not nullptr.
          *  \param p pointer
          */
         template<class T>
         auto assert_not_null (std::shared_ptr<T> const& p) -> void;
+
+        /**
+         *  \brief Asserts that nullopt literal is nullopt which is indeed true.
+         */
+        auto assert_nullopt (std::nullopt_t) -> void;
+
+        /**
+         *  \brief Asserts that \p o is nullopt.
+         *  \param o optional
+         */
+        template<class T>
+        auto assert_nullopt (std::optional<T> const& o) -> void;
+
+        /**
+         *  \brief Asserts that nullopt literal has value which is always false.
+         */
+        auto assert_has_value (std::nullopt_t) -> void;
+
+        /**
+         *  \brief Asserts that \p o contains value.
+         *  \param o optional
+         */
+        template<class T>
+        auto assert_has_value (std::optional<T> const& o) -> void;
 
         /**
          *  \brief Logs informational message.
@@ -680,6 +704,20 @@ namespace rog
         (std::shared_ptr<T> const& p) -> void
     {
         this->assert_true(p.get(), "Pointer is not nullptr");
+    }
+
+    template<class T>
+    auto LeafTest::assert_nullopt
+        (std::optional<T> const& o) -> void
+    {
+        this->assert_true(not o.has_value(), "Optional is nullopt");
+    }
+
+    template<class T>
+    auto LeafTest::assert_has_value
+        (std::optional<T> const& o) -> void
+    {
+        this->assert_true(o.has_value(), "Optional has value");
     }
 }
 

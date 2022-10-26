@@ -1,4 +1,5 @@
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
 #if __has_include(<format>)
@@ -111,6 +112,8 @@ protected:
         this->assert_equals(adl::ToStringAbleDummy(), adl::ToStringAbleDummy());
         this->assert_equals(OstreamAbleDummy(), OstreamAbleDummy());
         this->assert_equals(FormatAbleDummy(), FormatAbleDummy());
+        this->assert_nullopt(std::nullopt);
+        this->assert_has_value(std::optional<int>(10));
 
         this->info("Following shall not pass:");
         this->assert_true(false, "Assert true");
@@ -122,6 +125,8 @@ protected:
         // this->assert_not_equals(.2, .2);
         this->assert_throws([](){  });
         this->assert_not_null(nullptr);
+        this->assert_nullopt(std::optional<int>(10));
+        this->assert_has_value(std::nullopt);
     }
 };
 
