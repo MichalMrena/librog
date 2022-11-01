@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <ranges>
+#include <exception>
 
 namespace rog
 {
@@ -23,6 +24,13 @@ namespace rog
 
 // LeafTest:
 
+    namespace
+    {
+        struct test_failed_exception
+        {
+        };
+    }
+
     LeafTest::LeafTest
         (std::string name) :
         rog::Test::Test (std::move(name))
@@ -32,8 +40,24 @@ namespace rog
     auto LeafTest::run
         () -> void
     {
-        results_.clear();
-        this->test();
+        try
+        {
+            results_.clear();
+            this->test();
+        }
+        catch (test_failed_exception)
+        {
+            this->info("Terminated after failed assertion.");
+        }
+        catch (const std::exception& e)
+        {
+            using namespace std::string_literals;
+            this->log_fail("Unhandled exception: "s + e.what());
+        }
+        catch (...)
+        {
+            this->log_fail("Unhandled exception.");
+        }
     }
 
     auto LeafTest::result
@@ -74,8 +98,14 @@ namespace rog
     auto LeafTest::assert_true
         (bool const b, std::string m) -> void
     {
-        auto const type = b ? TestMessageType::Pass : TestMessageType::Fail;
-        results_.emplace_back(TestMessage {type, std::move(m)});
+        if (b)
+        {
+            this->pass(std::move(m));
+        }
+        else
+        {
+            this->fail(std::move(m));
+        }
     }
 
     auto LeafTest::assert_false
@@ -119,9 +149,8 @@ namespace rog
     auto LeafTest::fail
         (std::string m) -> void
     {
-        results_.emplace_back(
-            TestMessage {TestMessageType::Fail, std::move(m)}
-        );
+        this->log_fail(std::move(m));
+        throw test_failed_exception();
     }
 
     auto LeafTest::pass
@@ -129,6 +158,14 @@ namespace rog
     {
         results_.emplace_back(
             TestMessage {TestMessageType::Pass, std::move(m)}
+        );
+    }
+
+    auto LeafTest::log_fail
+        (std::string m) -> void
+    {
+        results_.emplace_back(
+            TestMessage {TestMessageType::Fail, std::move(m)}
         );
     }
 

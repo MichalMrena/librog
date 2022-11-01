@@ -125,7 +125,7 @@ namespace rog
         /**
          *  \brief Runs the test.
          */
-        auto run () -> void override;
+        auto run () -> void override final;
 
         /**
          *  \brief Returns result of the test.
@@ -408,7 +408,7 @@ namespace rog
         auto info (std::string message) -> void;
 
         /**
-         *  \brief Logs failed assertion as if \c asert_true(false,message) .
+         *  \brief Fails the test as if \c asert_true(false,message) .
          *  \param message message to be logged.
          */
         auto fail (std::string message) -> void;
@@ -418,6 +418,13 @@ namespace rog
          *  \param message message to be logged.
          */
         auto pass (std::string message) -> void;
+
+    private:
+        /**
+         *  \brief Logs failed assertion.
+         *  \param message message to be logged.
+         */
+        auto log_fail (std::string message) -> void;
 
     private:
         std::vector<TestMessage> results_;
@@ -456,7 +463,7 @@ namespace rog
         /**
          *  Runs all substests.
          */
-        auto run () -> void override;
+        auto run () -> void override final;
 
         /**
          *  \brief Returns result of the test.
