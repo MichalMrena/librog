@@ -93,7 +93,7 @@ class DummyTest : public rog::LeafTest
 {
 public:
     DummyTest () :
-        rog::LeafTest("Dummy")
+        rog::LeafTest("Dummy", rog::AssertPolicy::StopAtFirstFail)
     {
     }
 

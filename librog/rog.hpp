@@ -75,6 +75,15 @@ namespace rog
     };
 
     /**
+     *  \brief Specifies behavior of failed assertion.
+     */
+    enum class AssertPolicy
+    {
+        StopAtFirstFail,
+        RunAll
+    };
+
+    /**
      *  \brief Common base class for tests.
      */
     class Test : public IVisitable
@@ -119,8 +128,12 @@ namespace rog
         /**
          *  \brief Initializes the test with \p name .
          *  \param name name of the test.
+         *  \param policy specifies behavior after first failed assertion.
          */
-        LeafTest (std::string name);
+        LeafTest (
+            std::string name,
+            AssertPolicy policy = AssertPolicy::StopAtFirstFail
+        );
 
         /**
          *  \brief Runs the test.
@@ -428,6 +441,7 @@ namespace rog
 
     private:
         std::vector<TestMessage> results_;
+        AssertPolicy assertPolicy_;
     };
 
     /**

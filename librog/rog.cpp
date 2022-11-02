@@ -32,8 +32,9 @@ namespace rog
     }
 
     LeafTest::LeafTest
-        (std::string name) :
-        rog::Test::Test (std::move(name))
+        (std::string name, AssertPolicy policy) :
+        rog::Test::Test (std::move(name)),
+        assertPolicy_ (policy)
     {
     }
 
@@ -150,7 +151,10 @@ namespace rog
         (std::string m) -> void
     {
         this->log_fail(std::move(m));
-        throw test_failed_exception();
+        if (assertPolicy_ == AssertPolicy::StopAtFirstFail)
+        {
+            throw test_failed_exception();
+        }
     }
 
     auto LeafTest::pass
