@@ -564,7 +564,7 @@ namespace rog
             actual,
             expectedStr && actualStr
                 ? "Expected " + *expectedStr + " got " + *actualStr
-                : "Expected value does not equal to the actual value"
+                : "Expected value equals to the actual value"
         );
     }
 
