@@ -31,7 +31,7 @@ namespace rog
     template<class T>
     concept FormatAble = requires(T t)
     {
-        { std::format("{}", t) } -> std::covertible_to<std::string>;
+        { std::format("{}", t) } -> std::convertible_to<std::string>;
     };
     #endif
 }

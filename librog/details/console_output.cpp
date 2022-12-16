@@ -1,5 +1,6 @@
 #include <librog/details/console_output.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <string_view>
 #include <librog/rog.hpp>
@@ -41,35 +42,32 @@ namespace rog
             console_.println(t.name(), test_result_to_color(t.result()));
         }
 
-        if (otype_ == ConsoleOutputType::NoLeaf)
-        {
-            return;
-        }
-
         prefix_ += "    ";
-
-        for (auto const& r : t.output())
+        if (otype_ != ConsoleOutputType::NoLeaf)
         {
-            console_.print(prefix_);
-            switch (r.type_)
+            for (auto const& r : t.output())
             {
-            case TestMessageType::Pass:
-                console_.print("pass", Color::Green);
-                break;
+                console_.print(prefix_);
+                switch (r.type_)
+                {
+                case TestMessageType::Pass:
+                    console_.print("pass", Color::Green);
+                    break;
 
-            case TestMessageType::Fail:
-                console_.print("fail", Color::Red);
-                break;
+                case TestMessageType::Fail:
+                    console_.print("fail", Color::Red);
+                    break;
 
-            case TestMessageType::Info:
-                console_.print("info", Color::Blue);
-                break;
+                case TestMessageType::Info:
+                    console_.print("info", Color::Blue);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+                }
+                console_.print(" ");
+                console_.println(r.text_);
             }
-            console_.print(" ");
-            console_.println(r.text_);
         }
 
         if (prefix_.size() >= 4)
