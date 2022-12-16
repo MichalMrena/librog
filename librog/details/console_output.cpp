@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string_view>
+#include <librog/rog.hpp>
 
 namespace rog
 {
@@ -26,6 +27,12 @@ namespace rog
         }
     }
 
+    TestOutputterVisitor::TestOutputterVisitor
+        (ConsoleOutputType o) :
+        otype_ (o)
+    {
+    }
+
     auto TestOutputterVisitor::visit
         (LeafTest& t) -> void
     {
@@ -33,6 +40,12 @@ namespace rog
         {
             console_.println(t.name(), test_result_to_color(t.result()));
         }
+
+        if (otype_ == ConsoleOutputType::NoLeaf)
+        {
+            return;
+        }
+
         prefix_ += "    ";
 
         for (auto const& r : t.output())

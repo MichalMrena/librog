@@ -14,7 +14,9 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <librog/details/console_output.hpp>
 #include <librog/details/concepts.hpp>
+#include <librog/visitors.hpp>
 
 #if __has_include(<format>)
 #include <format>
@@ -22,28 +24,6 @@
 
 namespace rog
 {
-    class LeafTest;
-    class CompositeTest;
-
-    /**
-     *  \brief Test visitor interface.
-     */
-    struct IVisitor
-    {
-        virtual ~IVisitor () = default;
-        virtual auto visit (LeafTest&) -> void  = 0;
-        virtual auto visit (CompositeTest&) -> void  = 0;
-    };
-
-    /**
-     *  \brief Visitable interface implemented by tests.
-     */
-    struct IVisitable
-    {
-        virtual ~IVisitable () = default;
-        virtual auto accept (IVisitor&) -> void = 0;
-    };
-
     /**
      *  \brief Result of a Test.
      */
@@ -516,8 +496,12 @@ namespace rog
      *  \brief Prints results of the test into console.
      *  It is best to use this with the root test.
      *  \param t test to be printed.
+     *  \param o specifies level of details in the output.
      */
-    auto console_print_results (Test& t) -> void;
+    auto console_print_results (
+        Test& t,
+        ConsoleOutputType o = ConsoleOutputType::Full
+    ) -> void;
 
 // LeafTest:
 

@@ -134,5 +134,5 @@ auto main () -> int
 {
     auto t = DummyTest();
     t.run();
-    rog::console_print_results(t);
+    rog::console_print_results(t, rog::ConsoleOutputType::NoLeaf);
 }

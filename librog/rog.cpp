@@ -242,9 +242,9 @@ namespace rog
 
 // Free functions:
 
-    auto console_print_results (Test& t) -> void
+    auto console_print_results (Test& t, ConsoleOutputType o) -> void
     {
-        auto out = TestOutputterVisitor();
+        auto out = TestOutputterVisitor(o);
         t.accept(out);
     }
 }
