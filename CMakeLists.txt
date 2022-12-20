@@ -35,6 +35,7 @@ target_sources(
         HEADERS
     FILES
         librog/rog.hpp
+        librog/visitors.hpp
         librog/details/console.hpp
         librog/details/concepts.hpp
         librog/details/console_output.hpp
