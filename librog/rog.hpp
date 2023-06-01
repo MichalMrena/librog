@@ -523,7 +523,7 @@ namespace rog
                     ost << e;
                     return ost.str();
                 }
-                #if __has_include(<format>)
+                #ifdef __cpp_lib_format
                 else if constexpr (FormatAble<T>)
                 {
                     return std::format("{}", e);

@@ -1,8 +1,9 @@
 #ifndef ROG_DETAILS_CONCEPTS_HPP
 #define ROG_DETAILS_CONCEPTS_HPP
 
+#include <version>
 #include <concepts>
-#if __has_include(<format>)
+#ifdef __cpp_lib_format
 #include <format>
 #endif
 #include <string>
@@ -27,7 +28,7 @@ namespace rog
         ost << t;
     };
 
-    #if __has_include(<format>)
+    #ifdef __cpp_lib_format
     template<class T>
     concept FormatAble = requires(T t)
     {
